@@ -1,14 +1,11 @@
 %% the robust relationship between the MS and SE
 % setting
 clc;clear;close all;
-figure('Color', 'w', 'Units', 'Normalized', ...
-    'Name', ['The robustness of inverted-U curve',...
-    ' between MS and SE against choice of parcellation'], ...
-    'Position', [0.1 0.1 0.8 0.8]);
+
 
 %% select the LMS-MMS-HMS group
-load('step_1\subject.mat')
-load('step_2\MS_SE_HY96_RS.mat', 'MS');
+load('step_1_signals/subject.mat')
+load('step_2_MS_SE_relationship/MS_SE_HY96_RS.mat', 'MS');
 % sort the MS in ascending order
 [MS_s, MS_s_i] = sort(MS);
 % LMS group
@@ -23,14 +20,18 @@ MMS(:,3) = MS_s_i(200:219);
 HMS(:,1) = subject(MS_s_i(276:295));
 HMS(:,2) = MS_s(276:295);
 HMS(:,3) = MS_s_i(276:295);
-save('step_2\HMS_MMS_LMS_subject.mat', 'LMS', 'MMS', 'HMS');
+save('step_2_MS_SE_relationship/HMS_MMS_LMS_subject.mat', 'LMS', 'MMS', 'HMS');
 
 %% show the relationship between MS and SE
 %setting
 clc;clear;close all;
+figure('Color', 'w', 'Units', 'Normalized', ...
+    'Name', ['The robustness of inverted-U curve',...
+    ' between MS and SE against choice of parcellation'], ...
+    'Position', [0.1 0.1 0.8 0.8]);
 
 % HY-96 
-load('step_2\MS_SE_HY96_RS.mat') % load data
+load('step_2_MS_SE_relationship\MS_SE_HY96_RS.mat') % load data
 SE_HY96 = SE; MS_HY96 = MS;  
 clear MS SE KOP
 load('step_2\HMS_MMS_LMS_subject.mat') % load the MMS, LMS and HMS subject index

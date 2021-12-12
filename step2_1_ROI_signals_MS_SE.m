@@ -1,7 +1,7 @@
 %% step2: calculate the mean synchronization (MS) and synchronization entropy(SE)
 % setting environment and workspace
 clc;clear;close all
-addpath('Function')
+addpath('Function');
 
 %% HY96-ROI signals
 % setting environment and workspace
@@ -12,7 +12,7 @@ for SUB = 1:295
     disp(SUB);
     
     % the ROI signal path
-    HY96_ROIs_path = ['step_1\ROI_signals\HY_96\sub',num2str(SUB),'.mat'];
+    HY96_ROIs_path = ['step_1_ROIsignals/ROI_signals/HY_96/sub',num2str(SUB),'.mat'];
     % load the ROI-signals
     load(HY96_ROIs_path);
     signals = rest_HY96_ROI(:,1:96);% the ROI signals
@@ -20,13 +20,15 @@ for SUB = 1:295
     
     % z-score normalized signals
     signals_zs = zscore(signals);
-    %calculate the MS, SE and kuramoto parameter
+    %calculate the kuramoto parameter
     time_len = 1200;
     node_num = 96;
-    entropy_bin = 30;
-    [MS(SUB,1),SE(SUB,1),KOP(:,SUB)] = syn_synEntropy(signals_zs, time_len, node_num, entropy_bin);
+    KOP(:,SUB) = kuramoto_op(signals_zs, time_len, node_num);
+    MS(SUB) = mean(KOP(:,SUB));
+    bins = linspace(min(KOP(:,SUB)),max(KOP(:,SUB)),30);
+    SE(SUB) = entropy(KOP(:,SUB),bins);
 end
-save('step_2\MS_SE_HY96_RS.mat','MS','SE','KOP');
+save('step_2_MS_SE_relationship/MS_SE_HY96_RS.mat','MS','SE','KOP');
 %% BN246-ROI signals
 % setting
 clc;clear;close all
